@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page Title</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+    <h1>
+        DOM Manipulation
+      </h1>
+      <div id="container"></div>
+  <script>
+    // Your JavaScript goes here!
+    const container = document.querySelector('#container');
+
+    const content = document.createElement('div');
+    content.classList.add('content');
+    content.textContent = 'This is the glorious text-content!';
+
+    const redText = document.createElement('p');
+    redText.classList.add("redText");
+    redText.textContent = "Hey I'm Red!";
+    redText.style.color = "red";
+
+    const blueText = document.createElement('h3');
+    blueText.classList.add("blueText");
+    blueText.textContent = "I'm a blue h3!";
+    blueText.style.color = "blue";
+
+    const div = document.createElement('div');
+    div.classList.add('div');
+    div.style.backgroundColor = 'pink';
+    div.style.borderColor = 'black';
+
+    const divText = document.createElement('h1');
+    divText.classList.add("divText");
+    divText.textContent = "I'm in a div!";
+    divText.style.color = "black";
+
+    const divTextTwo = document.createElement('h1');
+    divTextTwo.classList.add("divTextTwo");
+    divTextTwo.textContent = "Me too!";
+    divTextTwo.style.color = "black";
+
+
+
+    container.appendChild(content);
+    container.appendChild(redText);
+    container.appendChild(blueText);
+    container.appendChild(div);
+    div.appendChild(divText);
+    div.appendChild(divTextTwo);
+  </script>
+</body>
+</html>
