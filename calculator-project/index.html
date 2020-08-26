@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-items: center;
+        width: 300px;
+        padding: 3px 0px 3px 3px;
+        background-color: #364746;
+        margin: auto;
+        
+    }
+    .screen {
+        background-color: beige;
+        display: flex;  
+        font-size: 2rem;
+        margin: 0px 3px 3px 0px;
+        justify-content: flex-end;
+        flex: 1 1 100%;
+    }
+    .maintext {
+        padding: 5px;
+        font-size: 3rem;
+    }
+    .operands {
+        display: flex;
+        justify-self: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        flex: 0 0 100%;
+    }
+    .numpad {
+        display: flex;
+        justify-self: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        flex: 0 0 100%;
+    }
+    button {
+        display: flex;
+        flex: 0 0 32%;
+        margin: 3px 3px 0px 0px;
+        justify-content: center;
+        align-items: center;
+        outline-style: none;
+        font-size: 1.5rem;
+        background-color: lightseagreen;
+    }
+    h1 {
+        text-align: center;
+        margin: auto;
+        color: beige;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    h3 {
+        text-align: center;
+        margin: auto;
+        color: beige;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    #number {
+        background-color: brown;
+    }
+    #clear {
+        background-color: chartreuse;
+    }
+    #backspace {
+        background-color: coral;
+    }
+</style>
+<head>
+  <title>Project: Calulator</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+    <h1>Simple Calculator</h1>
+    <br>
+    <h3>( Needs some work )</h3>
+    <br>
+    <div class ="container">
+
+        <div class  ="screen">
+            <div class ="maintext" id ='maintext1'>0</div>
+        </div>
+        <div class ="operands">
+            <button data-value="add" id="operand">+</button>
+            <button data-value="subtract" id="operand">-</button>
+            <button data-value="backspace" id="backspace">&lt;--</button>
+            <button data-value="multiply" id="operand">X</button>
+            <button data-value="divide" id="operand">/</button>
+            <button data-value="clear" id="clear">CC</button>
+        </div>
+        <div class  ="numpad">
+            <button data-value="7" id="number">7</button>
+            <button data-value="8" id="number">8</button>
+            <button data-value="9" id="number">9</button>
+            <button data-value="4" id="number">4</button>
+            <button data-value="5" id="number">5</button>
+            <button data-value="6" id="number">6</button>
+            <button data-value="1" id="number">1</button>
+            <button data-value="2" id="number">2</button>
+            <button data-value="3" id="number">3</button>
+            <button data-value="negative" id="negative">+/-</button>
+            <button data-value="0" id="number">0</button>
+            <button data-value="decimal" id="decimal">.</button>
+            <button data-value="equal" id="equal">=</button>
+
+        </div>
+    </div>
+    
+  <script>
+    // Your JavaScript goes here!
+    const container = document.querySelector('.container');
+    const numpad = document.querySelector('.numpad');
+    const screenText = document.querySelector('.maintext');
+    let num1;
+    let num2;
+    let operator;
+    let displayValue;
+    let runningTotal;
+    let operandText;
+ 
+
+    document.querySelectorAll('#number').forEach(item => {
+        item.addEventListener('click', event => {
+            displayValue = item.innerHTML;
+            if (screenText.innerHTML === '0' || screenText.innerHTML == '+' || screenText.innerHTML == '-' 
+            || screenText.innerHTML == '/' || screenText.innerHTML == 'X') {
+                //console.log(displayValue); 
+                screenText.innerHTML = displayValue;
+                return;
+            } else {
+                screenText.innerHTML += displayValue;
+                return;
+            }
+        })
+    });
+
+    document.querySelectorAll('#operand').forEach(item => {
+        item.addEventListener('click', event => {
+            num1 = parseFloat(screenText.innerHTML);
+             console.log(num1);
+            screenText.innerHTML = item.innerHTML;
+            operator = item.getAttribute('data-value');
+            // console.log(operator);
+        })
+    });
+
+    const equal = document.querySelector('#equal');
+        equal.addEventListener('click', function (e) {
+            num2 = parseFloat(screenText.innerHTML);
+            // console.log(num1);
+            // console.log(num2);
+            // console.log(operator);
+            screenText.innerHTML = operate(operator,num1,num2);
+        });
+
+    const negative = document.querySelector('#negative');
+        negative.addEventListener('click', function (e) {
+            negateValue();
+        });
+
+    const clear = document.querySelector('#clear');
+        clear.addEventListener('click', function (e) {
+            clearValues();
+        });
+
+    const backspace = document.querySelector('#backspace');
+        backspace.addEventListener('click', function (e) {
+            backSpace();
+        });
+
+    const decimal = document.querySelector('#decimal');
+        decimal.addEventListener('click', function (e) {
+            screenText.innerHTML += ".";
+        });
+        
+    function negateValue() {
+        if (screenText.innerHTML.match(/^[\-1-9]/g)) {
+            let updateValue = parseFloat(screenText.innerHTML) * -1;
+            screenText.innerHTML = updateValue;
+            }
+    }
+
+    function clearValues() {
+        num1 = 0;
+        num2 = 0;
+        operator = "";
+        screenText.innerHTML = 0;
+    }
+     
+    function backSpace() {
+        screenText.innerHTML = screenText.innerHTML.slice(0,-1);
+    }        
+
+    function add(num1,num2) {
+	    return num1 + num2;
+    }
+
+    function subtract(num1,num2) {
+        return  num1 - num2;
+    }
+
+    function divide(num1, num2) {
+        return num1 / num2;
+    }
+
+    function multiply(num1,num2) {
+        return num1 * num2;
+    }
+    
+    function operate(operator,num1,num2) {
+        switch (operator) {
+        case "add":
+            return add(num1, num2);
+            break;
+        case "subtract":
+            return subtract(num1, num2);
+            break;
+        case "multiply":
+            return multiply(num1, num2);
+            break;
+        case "divide":
+            return divide(num1, num2);
+            break;        
+        } 
+    }
+
+  </script>
+</body>
+</html>
