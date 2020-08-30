@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body, html {
+       height: 100%;
+       background-color: #E1E2E1;
+       font-family: 'Montserrat', Lato, roboto, sans-serif;
+       font-weight: 200;
+    } 
+    #header {
+       display: inline;
+       text-align: center;
+    }
+    #main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-items: space-between;
+        width: 800px;
+        padding: 10px 10px 10px 10px;
+        background-color: #364746;
+        margin: auto;
+        border: 1px solid black;   
+    }
+    #bookshelf {
+        display: flex;
+        flex: 0 1 auto;
+        margin: 3px 3px 3px 3px;
+        justify-content: space-between;
+        align-items: center;
+        outline-style: none;
+        font-size: 1.5rem;
+        background-color: lightseagreen;
+    }
+    #addbtn {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 23px;
+        right: 28px;
+        width: 280px;
+    }
+    .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+        }
+        /* Add styles to the form container */
+    .form-container {
+        max-width: 300px;
+        padding: 10px;
+        background-color: white;
+        }
+        /* Full-width input fields */
+    .form-container input[type=text], .form-container input[type=number] {
+        width: 90%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+    }
+    .form-container input[type=checkbox], #label {
+        display: flexbox;
+        align-content: center;
+        width: 30px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+    .form-container input[type=checkbox] {
+        /* width: 90%;
+
+        border: none; */
+ 
+        float: right;
+        width: 20px;
+        margin: 2px 120px 0px 0;
+    }
+    /* When the inputs get focus, do something */
+    .form-container input[type=text]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+    /* Set a style for the submit/login button */
+    .form-container .btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom:7px;
+        margin-top: 12px;
+        opacity: 0.8;
+        }
+    /* Add a red background color to the cancel button */
+    .form-container .cancel {
+        background-color: red;
+    }
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+    }
+
+</style>
+<head>
+  <title>Project: Library</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+    <div class="form-popup" id="myForm">
+        <form class="form-container">
+          <h1>Add a Book</h1>
+      
+          <label for="booktitle"><b>Book Title</b></label>
+          <input type="text" placeholder="Title" id=title name="booktitle" required>
+      
+          <label for="bookauthor"><b>Book Author</b></label>
+          <input type="text" placeholder="Author" id=author name="bookauthor" >
+
+          <label for="pages">Pages</label>
+          <input type="number" id=pages  name="pages">
+
+          <label id=label for="read">I have read this book:</label>
+          <input type="checkbox" id=read  name="read" value="TRUE">
+
+          <button type="button" class="btn" id=submit>Submit</button>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+      </div>
+    <div id=header>
+        <button id=addbtn onclick="addBookToLibrary()">+ Add Book</button>
+        <h1>My Library</h1>
+    </div>
+    <div id=main>
+      <div id=bookshelf>Hello</div>
+    </div>
+        
+  <script>
+    // Your JavaScript goes here!
+
+    const main = document.querySelector('#main');
+    const bookshelf = document.querySelector('#bookshelf');
+    const addbtn = document.querySelector('#addbtn');
+    var title = "";
+    var author = "";
+    var pages = 0;
+    var read = Boolean;    
+    let dune = new Book("Dune","Frank Herbert", 412, true)
+    let myLibrary = [dune];
+
+    function Book(title,author,pages,read) {
+                this.title = title
+                this.author = author
+                this.pages = pages
+                this.read = read
+                this.info = function() {
+                    return this.title + " by " + this.author + ", " + this.pages + +", " + this.read;
+            }
+        }
+    
+    
+    function addBookToLibrary() {
+               // Bring up a prompt window asking for info of book
+               document.getElementById("myForm").style.display = "block";
+                
+               // store that object in a var
+               
+               // push that object into the myLibrary array
+    }
+    function closeForm() {
+              document.getElementById("myForm").style.display = "none";
+    }
+    
+    // function onSubmit() {
+    //          // e.preventDefault();
+    //           let title;
+    //           title = document.getElementById('title');
+    //           author = document.getElementById('author');
+    //           pages = document.getElementById('pages');
+    //           read = document.getElementById('read');
+    //           console.log(title);
+    //           console.log(author);
+    // }
+    
+    const submit = document.querySelector('#submit');
+    submit.addEventListener('click', function (e) {
+              e.preventDefault();
+              title = document.getElementById('title').value;
+              author = document.getElementById('author').value;
+              pages = document.getElementById('pages').value;
+              read = document.getElementById('read').checked;
+              console.log(title);
+              console.log(author);
+              console.log(pages);
+              console.log(read);
+              var newBook = new Book(title,author,pages,read);
+              myLibrary.push(newBook)
+              render();
+              closeForm();
+        });
+
+    function readCheck(element) {
+        if (element == true) {
+            return "☑Read"
+        } else {
+            return "☒Not Read Yet"
+        }
+    }
+
+    function render() {
+             bookshelf.innerHTML = "";
+             myLibrary.forEach((element) => {
+                 let newBookContainer = document.createElement("div")
+                 newBookContainer.setAttribute("class","book-container")
+
+                 titleP = document.createElement( "p" );
+                 titleP.textContent = element.title; 
+
+                 authorP = document.createElement( "p" );
+                 authorP.textContent = "By: " + element.author;
+
+                 pagesP = document.createElement( "p" );
+                 pagesP.textContent =  element.pages + " Pages"; 
+
+                 has_read = document.createElement("p");
+                 has_read.textContent = readCheck(element.read);
+
+                 bookshelf.appendChild(titleP);
+                 bookshelf.appendChild(authorP);
+                 bookshelf.appendChild(pagesP);
+                 bookshelf.appendChild(has_read)
+
+                 bookshelf.appendChild(newBookContainer);
+             })
+    }
+    render();
+    //const dune = new Book('Dune', 'Frank Herbert', '500', true);
+    //alert(dune.info);
+  </script>
+</body>
+</html>
